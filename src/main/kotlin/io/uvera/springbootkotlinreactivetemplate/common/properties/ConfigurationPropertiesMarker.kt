@@ -1,0 +1,3 @@
+package io.uvera.springbootkotlinreactivetemplate.common.properties
+
+interface ConfigurationPropertiesMarker

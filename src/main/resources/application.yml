@@ -1,0 +1,18 @@
+spring:
+  data:
+    mongodb:
+      repositories:
+        type: auto
+      uri: mongodb://127.0.0.1:27017
+      database: 'spring-reactive-mongodb'
+      auto-index-creation: true
+
+app:
+  jwt:
+    token:
+      access:
+        secret: SecretForAccessToken
+        expiration-in-minutes: 1440
+      refresh:
+        secret: SecretForRefreshToken
+        expiration-in-minutes: 44640

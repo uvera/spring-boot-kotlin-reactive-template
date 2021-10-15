@@ -1,0 +1,12 @@
+POST http://localhost:8080/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "uvera@github.io",
+  "password": "Password123"
+}
+
+###
+
+
+GET http://localhost:8080/api/test
