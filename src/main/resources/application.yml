@@ -11,8 +11,8 @@ app:
   jwt:
     token:
       access:
-        secret: SecretForAccessToken
+        secret: "XCidHS4OsejNKlztvyWUgbQMtne8ZJlePZXBsa6tUUiMeJ+RZ1Y+6g7oyuoIP3eIl3hWHu+jic77N+GeDzavF0yN2h/YeY0051zgs0DfqfwKsmbiEfrDfkTpVLqEGPB4teLLh203//GG5OT0GystG6xvuVWwoaDALz5Ncjy7BhY="
         expiration-in-minutes: 1440
       refresh:
-        secret: SecretForRefreshToken
+        secret: "Yv062gWWBJ2yP0nxw4X3D0RKjx8lwCG/jLgqbocJJM8aa65O72X11dEfVj3SnI/xX7PmdfEBUmOVI1uUCFAg4FqgFUwvEtQhCo5lGGQTIpg8oLzojXAM2zXVwm2IcJAaFlZnkOwyftjefEomyuqUSwiJvYa4vbrUMSC7DhNRBCM="
         expiration-in-minutes: 44640

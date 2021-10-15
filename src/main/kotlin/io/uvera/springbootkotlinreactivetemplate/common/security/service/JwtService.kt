@@ -1,6 +1,7 @@
 package io.uvera.springbootkotlinreactivetemplate.common.security.service
 
 import io.jsonwebtoken.*
+import io.uvera.springbootkotlinreactivetemplate.common.properties.Base64Secret
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Service
 import java.util.*
@@ -17,15 +18,15 @@ interface JwtService {
 @Service
 class GenericTokenService {
     /**
-     * Generates token from [userDetails] using [secret] [String]
+     * Generates token from [userDetails] using [base64Secret] [String]
      *
      * @param userDetails instance of [UserDetails] implementation
      * @param expirationInMinutes expiration in minutes as [Int]
-     * @param secret secret used for signing the JWT
+     * @param base64Secret used for signing the JWT
      *
      * @return generated token [String]
      */
-    fun generateToken(userDetails: UserDetails, expirationInMinutes: Int, secret: String): String {
+    fun generateToken(userDetails: UserDetails, expirationInMinutes: Int, base64Secret: Base64Secret): String {
         val subject = userDetails.username
         val claims = mutableMapOf<String, Any>()
         val issuedAt = Date(System.currentTimeMillis())
@@ -46,20 +47,21 @@ class GenericTokenService {
             .setSubject(subject)
             .setIssuedAt(issuedAt)
             .setExpiration(expiration)
-            .signWith(SignatureAlgorithm.HS512, secret)
+            .signWith(SignatureAlgorithm.HS512, base64Secret.value)
             .compact()
     }
 
     /**
-     * Validates [token] against [secret]
+     * Validates [token] against [base64Secret]
      * @return [Boolean] indicating if validation passed
      */
-    fun validateToken(token: String, secret: String): Boolean = try {
-        Jwts.parser()
-            .setSigningKey(secret)
+    fun validateToken(token: String, base64Secret: Base64Secret): Boolean = try {
+        Jwts.parserBuilder()
+            .setSigningKey(base64Secret.value)
+            .build()
             .parseClaimsJws(token)
         true
-    } catch (ex: SignatureException) {
+    } catch (ex: SecurityException) {
         false
     } catch (ex: MalformedJwtException) {
         false
@@ -75,9 +77,10 @@ class GenericTokenService {
      * Parses claims from tokens
      * @return nullable instance of [Claims]
      */
-    fun getClaimsFromToken(token: String, secret: String): Claims? = try {
-        Jwts.parser()
-            .setSigningKey(secret)
+    fun getClaimsFromToken(token: String, base64Secret: Base64Secret): Claims? = try {
+        Jwts.parserBuilder()
+            .setSigningKey(base64Secret.value)
+            .build()
             .parseClaimsJws(token)
             .body
     } catch (ex: Exception) {
