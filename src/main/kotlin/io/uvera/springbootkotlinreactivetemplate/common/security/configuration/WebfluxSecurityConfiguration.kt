@@ -1,6 +1,7 @@
 package io.uvera.springbootkotlinreactivetemplate.common.security.configuration
 
 import io.uvera.springbootkotlinreactivetemplate.common.security.filter.AuthenticationConverter
+import io.uvera.springbootkotlinreactivetemplate.common.security.service.JwtAccessService
 import io.uvera.springbootkotlinreactivetemplate.common.security.util.extension.configurationSource
 import io.uvera.springbootkotlinreactivetemplate.common.security.util.extension.corsConfiguration
 import org.springframework.context.annotation.Bean
@@ -17,14 +18,16 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.server.SecurityWebFilterChain
 import org.springframework.security.web.server.authentication.AuthenticationWebFilter
+import org.springframework.security.web.server.util.matcher.NegatedServerWebExchangeMatcher
+import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers
 
 @Configuration
 @EnableWebFluxSecurity
 @EnableReactiveMethodSecurity
 class WebfluxSecurityConfiguration(
-    protected val authConverter: AuthenticationConverter,
     protected val authEntryPoint: AuthEntryPoint,
     protected val userDetailsService: ReactiveUserDetailsService,
+    protected val jwtAccessService: JwtAccessService,
 ) {
 
 
@@ -59,13 +62,19 @@ class WebfluxSecurityConfiguration(
         }
     }
 
-    @Bean
     fun authWebFilter(): AuthenticationWebFilter {
         return AuthenticationWebFilter(authManager()).apply {
-            setServerAuthenticationConverter(authConverter)
+            setServerAuthenticationConverter(AuthenticationConverter(userDetailsService, jwtAccessService))
+            setRequiresAuthenticationMatcher(
+                ServerWebExchangeMatchers.matchers(
+                    NegatedServerWebExchangeMatcher(
+                        ServerWebExchangeMatchers.pathMatchers("/api/auth/**")
+                    ),
+                    ServerWebExchangeMatchers.pathMatchers("/api/auth/who-am-i")
+                )
+            )
         }
     }
-
 
     @Bean
     fun authManager(): ReactiveAuthenticationManager = CustomReactiveAuthenticationManager(

@@ -1,22 +1,20 @@
 package io.uvera.springbootkotlinreactivetemplate.common.security.filter
 
 import io.uvera.springbootkotlinreactivetemplate.common.security.service.JwtAccessService
-import io.uvera.springbootkotlinreactivetemplate.common.security.service.MongoUserDetailsService
 import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.authentication.DisabledException
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
-import org.springframework.stereotype.Component
+import org.springframework.security.core.userdetails.ReactiveUserDetailsService
+import org.springframework.security.web.server.authentication.ServerAuthenticationConverter
 import org.springframework.web.server.ServerWebExchange
 import reactor.core.publisher.Mono
-import kotlin.time.ExperimentalTime
 
-@Component
 class AuthenticationConverter(
-    protected val userDetailsService: MongoUserDetailsService,
-    protected val jwtAccessService: JwtAccessService,
-) : (ServerWebExchange) -> Mono<Authentication> {
-    override fun invoke(exchange: ServerWebExchange): Mono<Authentication> {
+    private val userDetailsService: ReactiveUserDetailsService,
+    private val jwtAccessService: JwtAccessService,
+) : ServerAuthenticationConverter {
+    override fun convert(exchange: ServerWebExchange): Mono<Authentication> {
         return exchange.extractJwt()
             .flatMap { token ->
                 if (!jwtAccessService.validateToken(token))
