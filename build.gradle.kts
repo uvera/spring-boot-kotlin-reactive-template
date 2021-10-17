@@ -21,6 +21,15 @@ repositories {
     mavenCentral()
 }
 
+allprojects {
+    repositories {
+        mavenLocal()
+        maven {
+            url = uri("https://jitpack.io")
+        }
+    }
+}
+
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
     implementation("org.springframework.boot:spring-boot-starter-security")
@@ -31,6 +40,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+    implementation("com.github.uvera:helmet-reactive-spring-boot-starter:0.0.2")
     implementation("javax.xml.bind:jaxb-api:2.3.1")
     // region jwt
     implementation("io.jsonwebtoken:jjwt-api:0.11.2")
