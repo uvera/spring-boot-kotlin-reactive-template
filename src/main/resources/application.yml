@@ -8,21 +8,20 @@ spring:
       auto-index-creation: true
 
 spring-helmet:
-  reactive:
-    enable-cross-origin-embedder-policy: true
-    enable-cross-origin-opener-policy: true
-    enable-cross-origin-resource-policy: true
-    enable-origin-agent-cluster: true
-    enable-referrer-policy: true
-    enable-strict-transport-security: true
-    enable-do-not-sniff-mimetype: true
-    enable-x-dns-prefetch-control: true
-    enable-x-download-options: true
-    enable-x-frame-options: true
-    enable-x-permitted-cross-domain-policies: true
-    remove-x-powered-by: true
-    disable-x-xss-protection: true
-    enable-content-security-policy: true
+  enable-cross-origin-embedder-policy: true
+  enable-cross-origin-opener-policy: true
+  enable-cross-origin-resource-policy: true
+  enable-origin-agent-cluster: true
+  enable-referrer-policy: true
+  enable-strict-transport-security: true
+  enable-do-not-sniff-mimetype: true
+  enable-x-dns-prefetch-control: true
+  enable-x-download-options: true
+  enable-x-frame-options: true
+  enable-x-permitted-cross-domain-policies: true
+  remove-x-powered-by: true
+  disable-x-xss-protection: true
+  enable-content-security-policy: true
 
 app:
   jwt:

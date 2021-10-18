@@ -40,7 +40,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
-    implementation("com.github.uvera:helmet-reactive-spring-boot-starter:0.0.2")
+    implementation("com.github.uvera.helmet-spring-boot-starter:webflux:0.1.0")
     implementation("javax.xml.bind:jaxb-api:2.3.1")
     // region jwt
     implementation("io.jsonwebtoken:jjwt-api:0.11.2")
