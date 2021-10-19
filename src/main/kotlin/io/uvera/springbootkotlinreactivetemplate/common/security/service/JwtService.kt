@@ -1,6 +1,7 @@
 package io.uvera.springbootkotlinreactivetemplate.common.security.service
 
 import io.jsonwebtoken.*
+import io.jsonwebtoken.security.Keys
 import io.uvera.springbootkotlinreactivetemplate.common.properties.Base64Secret
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Service
@@ -41,13 +42,14 @@ class GenericTokenService {
                 Date(millis)
             }
 
+        val key = Keys.hmacShaKeyFor(base64Secret.value.toByteArray())
         return Jwts
             .builder()
             .setClaims(claims)
             .setSubject(subject)
             .setIssuedAt(issuedAt)
             .setExpiration(expiration)
-            .signWith(SignatureAlgorithm.HS512, base64Secret.value)
+            .signWith(key)
             .compact()
     }
 
