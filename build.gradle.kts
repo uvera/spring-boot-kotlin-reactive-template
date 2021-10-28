@@ -34,6 +34,7 @@ allprojects {
 val jjwtVersion: String by project
 val helmetWebfluxVersion: String by project
 val jaxbApiVersion: String by project
+val springDocVersion: String by project
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
@@ -57,6 +58,11 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("org.springframework.security:spring-security-test")
+    // region springdoc
+    implementation("org.springdoc:springdoc-openapi-webflux-ui:$springDocVersion")
+    implementation("org.springdoc:springdoc-openapi-data-rest:$springDocVersion")
+    implementation("org.springdoc:springdoc-openapi-kotlin:$springDocVersion")
+    // endregion springdoc
 }
 
 tasks.withType<KotlinCompile> {

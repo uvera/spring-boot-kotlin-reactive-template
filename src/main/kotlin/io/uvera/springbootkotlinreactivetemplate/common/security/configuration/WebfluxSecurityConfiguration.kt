@@ -60,6 +60,16 @@ class WebfluxSecurityConfiguration(
         exceptionHandling {
             authenticationEntryPoint = authEntryPoint
         }
+        securityMatcher(
+            NegatedServerWebExchangeMatcher(
+                ServerWebExchangeMatchers.pathMatchers(
+                    "/v3/api-docs/**",
+                    "/swagger-ui/**",
+                    "/swagger-ui.html",
+                    "/webjars/swagger-ui/**",
+                )
+            )
+        )
     }
 
     fun authWebFilter(): AuthenticationWebFilter {
@@ -68,7 +78,9 @@ class WebfluxSecurityConfiguration(
             setRequiresAuthenticationMatcher(
                 ServerWebExchangeMatchers.matchers(
                     NegatedServerWebExchangeMatcher(
-                        ServerWebExchangeMatchers.pathMatchers("/api/auth/**")
+                        ServerWebExchangeMatchers.pathMatchers(
+                            "/api/auth/**",
+                        )
                     ),
                     ServerWebExchangeMatchers.pathMatchers("/api/auth/who-am-i")
                 )
