@@ -5,6 +5,7 @@ plugins {
     id("io.spring.dependency-management")
     kotlin("jvm")
     kotlin("plugin.spring")
+    id("com.palantir.docker")
 }
 
 group = "io.uvera"
@@ -68,3 +69,30 @@ tasks.withType<KotlinCompile> {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+//region DockerSetup
+
+val bootJarTask = tasks.bootJar.get()
+val archivePath = bootJarTask.archiveFileName.get()
+val dockerFilePath = "${projectDir.path}/docker/palantir/Dockerfile"
+val appName = project.name.toLowerCase()
+val projectName = "${project.group}/${appName}"
+val fullName = "$projectName:${project.version}"
+val dockerBuildArgs = mapOf(
+    "JAR_FILE" to archivePath
+)
+
+// workaround from https://github.com/palantir/gradle-docker/issues/413
+tasks.docker {
+    inputs.file(dockerFilePath)
+}
+
+docker {
+    name = fullName
+    tag("latest", "$projectName:latest")
+    pull(true)
+    setDockerfile(file(dockerFilePath))
+    files(bootJarTask.outputs)
+    buildArgs(dockerBuildArgs)
+}
+
+//endregion DockerSetup
