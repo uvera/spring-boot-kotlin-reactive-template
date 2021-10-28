@@ -21,7 +21,7 @@ spring-helmet:
   enable-x-permitted-cross-domain-policies: true
   remove-x-powered-by: true
   disable-x-xss-protection: true
-  enable-content-security-policy: true
+  enable-content-security-policy: false
 
 app:
   jwt:
