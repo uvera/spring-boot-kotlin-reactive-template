@@ -94,7 +94,8 @@ tasks.docker {
 
 docker {
     name = fullName
-    tag("latest", "$projectName:latest")
+    listOf(version.toString(), "latest")
+        .forEach { tagName -> tag(tagName, "${projectName}:${tagName}") }
     pull(true)
     setDockerfile(file(dockerFilePath))
     files(bootJarTask.outputs)
