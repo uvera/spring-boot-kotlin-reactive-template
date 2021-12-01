@@ -5,7 +5,7 @@
 ** Project Configuration
 - Spring Boot 2.6.1
 - Kotlin 1.6.0
-- Java 16
+- Java 17
 ** Starters
 #+BEGIN_SRC kotlin
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
